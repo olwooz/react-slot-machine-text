@@ -1,6 +1,6 @@
 {
   "name": "react-slot-machine-text",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
