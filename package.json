@@ -1,5 +1,5 @@
 {
-  "name": "react-slot-machine",
+  "name": "react-slot-machine-text",
   "version": "1.0.0",
   "description": "A React component library that enables developers to create a slot machine-like effect for an array of strings",
   "scripts": {
