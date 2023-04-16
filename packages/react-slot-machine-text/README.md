@@ -14,7 +14,6 @@ import { SlotMachine } from 'react-slot-machine-text';
 
 /* ... */
 <SlotMachine 
-  initialText={'Click Me!'}
   textData={['Option #1', 'Option #2', ...]} // array of string
   random={true} // whether the options are displayed in a random order (true) or in sequential order (false), true by default
 />
