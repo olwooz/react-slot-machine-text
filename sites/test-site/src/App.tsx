@@ -1,14 +1,16 @@
-import './App.css'
-import { SlotMachine } from 'react-slot-machine';
+import './index.css';
+import { SlotMachine } from 'react-slot-machine-text';
 
 function App() {
-  const textData = [...Array(15)].map(_ => `Data #${String(Math.round(Math.random() * 30))}`);
+  const textData = [...Array(15)].map(
+    (_) => `Data #${String(Math.round(Math.random() * 30))}`
+  );
 
   return (
-    <div className="App">
+    <div className='App'>
       <SlotMachine initialText={'Click Me!'} textData={textData} />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
