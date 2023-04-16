@@ -1,11 +1,17 @@
 import { SlotMachine } from './lib';
 
 function App() {
-  const textData = [...Array(15)].map(_ => String(Math.round(Math.random() * 30)));
+  function generateTextData(n: number) {
+    return [...Array(n)].map((_, i) => `Data #${i}`);
+  }
 
   return (
-    <SlotMachine initialText={'Click me!'} textData={textData}/>
-  )
+    <div className='App'>
+      <SlotMachine textData={generateTextData(5)} />
+      <SlotMachine textData={generateTextData(15)} />
+      <SlotMachine textData={generateTextData(200)} />
+    </div>
+  );
 }
 
 export default App;

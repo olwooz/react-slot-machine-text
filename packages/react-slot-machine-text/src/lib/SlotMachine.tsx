@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 
 interface Props {
-  initialText: String;
   textData: string[];
   random?: boolean;
 }
@@ -16,29 +15,71 @@ interface VariantProps {
 
 const MIN_ARR_LEN = 15;
 
-const SlotMachine = ({ initialText, textData, random=true }: Props) => {
+const SlotMachine = ({ textData, random = true }: Props) => {
   if (textData.length === 0) {
-    return <div><p>Please enter at least one element in textData.</p></div>
+    return (
+      <div>
+        <p>Please enter at least one element in textData.</p>
+      </div>
+    );
   }
 
   if (random) textData = shuffle(textData);
 
-  const dataCount = textData.length < MIN_ARR_LEN ? Math.round(MIN_ARR_LEN / textData.length) * textData.length : textData.length;
-  const textArr = textData.length < MIN_ARR_LEN ? Array(Math.round(MIN_ARR_LEN / textData.length)).fill(textData).flat() : textData;
-  
-  const [data, setData] = useState([initialText, ...textArr]);
+  const dataCount =
+    textData.length < MIN_ARR_LEN
+      ? Math.round(MIN_ARR_LEN / textData.length) * textData.length
+      : textData.length;
+  const textArr =
+    textData.length < MIN_ARR_LEN
+      ? Array(Math.round(MIN_ARR_LEN / textData.length))
+          .fill(textData)
+          .flat()
+      : textData;
+
+  const [data, setData] = useState(textArr);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const lastIndex = dataCount - 1;
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => {
-        return prev < selectedIndex ? prev + 1 : prev;
+        return prev < lastIndex ? prev + 1 : prev;
       });
-    }, getDuration(10, currentIndex));
+    }, getDuration(15, currentIndex));
 
     return () => clearInterval(interval);
-  }, [currentIndex, selectedIndex]);
+  });
+
+  const getDuration = useCallback(
+    (base: number, index: number) => {
+      console.log(
+        base,
+        index,
+        dataCount,
+        base * (index + 1) * (MIN_ARR_LEN / dataCount)
+      );
+      return (
+        base * (((index + 1) / MIN_ARR_LEN) * 10) * (MIN_ARR_LEN / dataCount)
+      );
+    },
+    [dataCount]
+  );
+
+  function handleClick() {
+    const nextIndex = random
+      ? Math.round(Math.random() * (dataCount - 1))
+      : dataCount - 1;
+
+    setData((prev) => {
+      return [
+        ...prev.slice(nextIndex + 1, prev.length),
+        ...prev.slice(0, nextIndex + 1),
+      ];
+    });
+
+    setCurrentIndex(0);
+  }
 
   const variants: Variants = {
     initial: { scaleY: 0.3, y: '-50%', opacity: 0 },
@@ -52,48 +93,47 @@ const SlotMachine = ({ initialText, textData, random=true }: Props) => {
   };
 
   function shuffle(array: string[]) {
-    const shuffled = Array(array.length);
+    const shuffled = [...array];
 
-    for (let i = array.length - 1; i > 0; i--) {
+    for (let i = shuffled.length - 1; i > 0; i--) {
       let j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [array[j], array[i]];
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
 
     return shuffled;
   }
 
-  function handleClick() {
-    const prevIndex = currentIndex;
-    const nextIndex = random ? data.length - prevIndex + Math.round(Math.random() * (textArr.length - 1)) : textArr.length - 1;
-    setData([...data.slice(prevIndex), ...textArr]);
-    setCurrentIndex(0);
-    setSelectedIndex(nextIndex);
-  }
-
-  function getDuration(base: number, index: number) {
-    return base * (index + 1) * (5 / dataCount);
-  }
-
   return (
     <div>
-      <AnimatePresence mode="popLayout">
+      <AnimatePresence mode='popLayout'>
         {data.map((text, i) => {
-          const isLast = i === selectedIndex;
+          const isLast = i === lastIndex;
 
           return (
             i === currentIndex && (
               <motion.p
-                className="slotMachineText"
+                className='slotMachineText'
                 key={text}
                 custom={{ isLast }}
                 variants={variants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                transition={{ duration: getDuration(isLast ? 0.1 : 0.01, i), ease: isLast ? 'easeInOut' : 'linear' }}
+                initial='initial'
+                animate='animate'
+                exit='exit'
+                transition={{
+                  duration: isLast ? 1 : getDuration(0.015, i),
+                  ease: isLast ? 'easeInOut' : 'linear',
+                }}
                 onClick={handleClick}
                 whileHover={{ opacity: 0.5, transition: { duration: 0.2 } }}
-                whileTap={{ scaleY: 0.7, y: '-30%', transition: { duration: 0.2 } }}
+                whileTap={{
+                  scaleY: 0.7,
+                  y: '-30%',
+                  transition: { duration: 0.2 },
+                }}
+                style={{
+                  overflow: 'hidden',
+                  margin: 0,
+                }}
               >
                 {text}
               </motion.p>
