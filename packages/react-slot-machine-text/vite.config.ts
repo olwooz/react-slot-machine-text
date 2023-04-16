@@ -15,7 +15,7 @@ export default defineConfig({
             entry: path.resolve(__dirname, 'src/lib/index.ts'),
             name: 'SlotMachine',
             formats: ['es', 'umd'],
-            fileName: (format) => `react-slot-machine.${format}.js`,
+            fileName: (format) => `react-slot-machine-text.${format}.js`,
         },
         rollupOptions: {
             external: ['react', 'react-dom', 'framer-motion'],

@@ -2,6 +2,7 @@
   "name": "react-slot-machine-text",
   "version": "1.0.0",
   "description": "A React component library that enables developers to create a slot machine-like effect for an array of strings",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

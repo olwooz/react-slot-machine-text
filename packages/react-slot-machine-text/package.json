@@ -1,6 +1,6 @@
 {
   "name": "react-slot-machine-text",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -29,13 +29,13 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/react-slot-machine.umd.js",
-  "module": "./dist/react-slot-machine.es.js",
+  "main": "./dist/react-slot-machine-text.umd.js",
+  "module": "./dist/react-slot-machine-text.es.js",
   "types": "./dist/index.d.ts",
   "exports": {
-      ".": {
-          "import": "./dist/react-slot-machine.es.js",
-          "require": "./dist/react-slot-machine.umd.js"
-      }
+    ".": {
+      "import": "./dist/react-slot-machine-text.es.js",
+      "require": "./dist/react-slot-machine-text.umd.js"
+    }
   }
 }
