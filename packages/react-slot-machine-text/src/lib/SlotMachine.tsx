@@ -53,12 +53,6 @@ const SlotMachine = ({ textData, random = true }: Props) => {
 
   const getDuration = useCallback(
     (base: number, index: number) => {
-      console.log(
-        base,
-        index,
-        dataCount,
-        base * (index + 1) * (MIN_ARR_LEN / dataCount)
-      );
       return (
         base * (((index + 1) / MIN_ARR_LEN) * 10) * (MIN_ARR_LEN / dataCount)
       );
